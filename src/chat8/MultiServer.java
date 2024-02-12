@@ -147,14 +147,21 @@ public class MultiServer {
 			String s = "";
 			
 			try {
-				//첫번째 메세지는 대화명이므로 접속을 알린다.
-				name = in.readLine();
-				sendAllMsg("", name + "님이 입장하셨습니다.");
-				clientMap.put(name, out);
-				System.out.println(name + " 접속");
-				System.out.println("현재 접속자 수는"
-				+clientMap.size()+ "명 입니다.");
-				
+				while (true) {
+					name = in.readLine();
+					
+					//대화명 중복 체크
+					if (!clientMap.containsKey(name)) {
+						clientMap.put(name, out);
+						sendAllMsg("", name + "님이 입장하셨습니다.");
+						System.out.println(name + " 접속");
+						System.out.println("현재 접속자 수는"
+								+clientMap.size()+ "명 입니다.");
+						break;
+					} else {
+						out.println("이미 사용 중인 대화명입니다. 다른 아이디를 입력해주세요.");
+					}
+				}
 				//두번째 메세지부터는 "대화내용" 
 				while(in != null) {
 					s = in.readLine();
